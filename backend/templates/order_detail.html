@@ -1,0 +1,161 @@
+{% extends 'base/admin.html' %}
+{% load static %}
+{% block title %}Neonmart | Order Details {% endblock %}
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order detail</h2>
+            <p>Details for Order ID: {{ order.id }}</p>
+        </div>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-4 mb-lg-0 mb-15">
+                    <span> <i class="material-icons md-calendar_today"></i> <b>{{ order.date }}</b> </span> <br />
+                    <small class="text-muted">Order ID: {{ order.id }}</small>
+                </div>
+                <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                    <span class="text-muted">Order Status: {{ order.status }}</span>
+                </div>
+            </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <div class="row mb-50 mt-20 order-info-wrap">
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-person"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Customer</h6>
+                            <p class="mb-1">
+                                {{ order.customer.first_name }} {{ order.customer.last_name }} <br />
+                                {{ order.customer.email }} <br />
+                                {{ order.customer.phone }}
+                            </p>
+                            <a href="#">View profile</a>
+                        </div>
+                    </article>
+                </div>
+                <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-local_shipping"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Order info</h6>
+                            <p class="mb-1">
+                                Pay status: {{ order.pymentSystem }}<br />
+                                Order Status: {{ order.status }}
+                            </p>
+                            <a href="#">Download info</a>
+                        </div>
+                    </article>
+                </div>
+                <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-place"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Deliver to</h6>
+                            <p class="mb-1">
+                                {{ order.customer.Address }} <br />
+                                {{ order.customer.city }} - {{ order.customer.zipcode }},<br />
+                                {{ order.customer.country }}
+                            </p>
+                            <a href="#">View profile</a>
+                        </div>
+                    </article>
+                </div>
+                <!-- col// -->
+            </div>
+            <!-- row // -->
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="40%">Product</th>
+                                    <th width="20%">Unit Price</th>
+                                    <th width="20%">Quantity</th>
+                                    <th width="20%" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order_item %}
+                                <tr>
+                                    <td>
+                                        <span class="itemside">
+                                            <div class="left">
+                                                <img src="{{ item.product.image.url }}" width="40" height="40" class="img-xs" alt="Item" />
+                                            </div>
+                                            <div class="info">
+                                                {{ item.product.name }} <br />
+                                                <span class="text-muted" style="font-size:12px;">SKU: {{ item.product.sku }}</span>
+                                            </div>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ item.product.price }}
+                                    </td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td class="text-end">
+                                        {% widthratio item.product.price 1 item.quantity %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="4">
+                                        <article class="float-end">
+                                            <dl class="dlist">
+                                                <dt>Subtotal:</dt>
+                                                <dd>
+                                                    {{ order.total_order }}
+                                                </dd>
+                                            </dl>
+                                        </article>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- table-responsive// -->
+                </div>
+                <!-- col// -->
+                <div class="col-lg-1"></div>
+
+                <div class="col-lg-4">
+                    <div class="box shadow-sm bg-light">
+                        <h6 class="mb-15">Payment info</h6>
+                        <p class="tm_m0">Payment method: {{ order.pymentSystem }}</p>
+                    </div>
+                    <div class="h-25 pt-4">
+                        <div class="mb-3">
+                            <label>Additional Information</label>
+                            <textarea class="form-control" name="notes" id="notes" placeholder="Type some note">{{ order.note }}</textarea>
+                        </div>
+                        <button onclick="printInvoice()" class="btn btn-secondary print ms-2" >
+                            <i class="icon material-icons md-print"></i> Print Invoice
+                        </button>
+                    </div>
+                    <script>
+                        function printInvoice() {
+                            window.print();
+                        }
+                    </script>
+                </div>
+                <!-- col// -->
+            </div>
+        </div>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+</section>
+{% endblock %}

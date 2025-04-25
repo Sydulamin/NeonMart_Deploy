@@ -1,0 +1,105 @@
+{% extends 'base/admin.html' %}
+{% load static %}
+{% block title %} Neon mart | All Category {% endblock %}
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Categories</h2>
+            <p>Add, edit or delete a category</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search Categories" class="form-control bg-white"/>
+        </div>
+    </div>
+    {% if messages %}
+        {% for m in messages %}
+            <div class="alert {{m.tags}}" id="alertMessage">
+                <strong>{{ m }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label class="form-label">Name</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Image</label>
+                            {{ form.category_img }}
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-primary">Create category</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for data in page %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><img src="{{ data.category_img.url }}" width="20"> </td>
+                                    <td><b>{{ data.name }}</b></td>
+                                    <td class="text-end">
+                                        <a href="{% url 'edit_category' data.id %}" class="btn btn-light rounded btn-sm font-sm">
+                                            <i class="material-icons md-edit" style="color:blue;"></i>
+                                        </a>
+                                        <a href="{% url 'delete_category' data.id %}" class="btn btn-danger rounded btn-sm font-sm">
+                                            <i class="material-icons md-delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-area">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                {% if page.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page.previous_page_number }}"><</a>
+                                </li>
+                                {% endif %}
+
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page.number }}">{{ page.number }}</a>
+                                </li>
+
+                                {% if page.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page.next_page_number }}">></a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page.paginator.num_pages }}">&raquo;</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- .col// -->
+            </div>
+            <!-- .row // -->
+        </div>
+        <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+</section>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}FAQ{% endblock title %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.min.css' %}"/>
+<!-- Start of Main -->
+<main class="main">
+    <!-- Start of Page Header -->
+    <div class="page-header" style="height: 180px">
+        <div class="container">
+            <h1 class="page-title mb-0">FAQs</h1>
+        </div>
+    </div>
+    <!-- End of Page Header -->
+
+    <!-- Start of Breadcrumb -->
+    <nav class="breadcrumb-nav mb-10 pb-1">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{% url 'faq' %}">Home</a></li>
+                <li>FAQs</li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End of Breadcrumb -->
+
+    <!-- Start of PageContent -->
+    <div class="page-content faq">
+        <div class="container">
+            <section class="content-title-section">
+                <h3 class="title title-simple justify-content-center bb-no pb-0">
+                    {{ f_settings.name }}
+                </h3>
+                <p class="description text-center">
+                    {{ f_settings.comment }}
+                </p>
+            </section>
+
+            <section class="mb-6">
+                {% for category, questions in f_ques_dict.items %}
+                <h4 class="title title-center mb-5">{{ category.name }}</h4>
+                <div class="row">
+                    {% for question in questions %}
+                    <div class="col-md-6 mb-8">
+                        <div class="accordion accordion-bg accordion-gutter-md accordion-border">
+                            <div class="card">
+                                <div class="card-header">
+                                    <a href="#collapse{{ question.pk }}" class="collapse">{{ question.name }}</a>
+                                </div>
+                                <div id="collapse{{ question.pk }}" class="card-body expanded">
+                                    <p class="mb-0">{{ question.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </section>
+        </div>
+    </div>
+    <!-- End of PageContent -->
+</main>
+<!-- End of Main -->
+{% endblock body %}

@@ -1,0 +1,135 @@
+{% extends 'base/admin.html' %}
+{% load static %}
+{% block title %}Neonmart | Edit {{ product.name }}{% endblock %}
+{% block content %}
+<section class="content-main">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12">
+                <div class="content-header">
+                    <h2 class="content-title">Edit {{ product.name }}</h2>
+                    <div>
+                        <a class="btn btn-light rounded font-sm mr-5 text-body hover-up" href="{% url 'all_product' %}">Back to Product List</a>
+                        <button class="btn btn-md rounded font-sm hover-up">Publish</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Basic</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label class="form-label">Product title</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Short description</label>
+                            <textarea class="form-control" name="description"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Full description</label>
+                            <textarea id="editor" name="description"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Product Price</label>
+                            {{ form.price }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Product SKU</label>
+                            {{ form.sku }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Images</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row gx-2">
+                            <div class="col-sm-6 mb-3">
+                                {{ form.image }}
+                            </div>
+                        </div>
+                        <!-- row.// -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Brand</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row gx-2">
+                            <div class="col-sm-6 mb-3">
+                                {{ form.brand }}
+                            </div>
+                        </div>
+                        <!-- row.// -->
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Slider Image</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label class="form-label">Slider 1</label>
+                            {{ form.pdsliderimg1 }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Slider 2</label>
+                            {{ form.pdsliderimg2 }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Slider 3</label>
+                            {{ form.pdsliderimg3 }}
+                        </div>
+                    </div>
+                </div>
+                <!-- card end// -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Organization</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row gx-2">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Category</label>
+                                {{ form.category }}
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">SubCategory</label>
+                                {{ form.subcategory }}
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">SubSubCategory</label>
+                                {{ form.sub_sub_category }}
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label">Status</label>
+                                {{ form.stock_status }}
+                            </div>
+                        </div>
+                        <!-- row.// -->
+                    </div>
+                </div>
+                <!-- card end// -->
+            </div>
+        </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block custom-js %}
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
+{% endblock %}

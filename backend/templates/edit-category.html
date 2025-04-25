@@ -1,0 +1,49 @@
+{% extends 'base/admin.html' %}
+{% load static %}
+{% block title %} Neon mart | Edit {{ category.name }} {% endblock %}
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Update Category</h2>
+            <p>Edit a category</p>
+        </div>
+        <div>
+            <a class="btn btn-primary" href="{% url 'all_category' %}">
+                <i class="text-muted material-icons md-arrow_back"></i>Back to Category
+            </a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label class="form-label">Category Name</label>
+                                    {{ form.name }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label class="form-label">Category Image</label>
+                                    {{ form.category_img }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Update category</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- .row // -->
+        </div>
+        <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+</section>
+{% endblock %}
